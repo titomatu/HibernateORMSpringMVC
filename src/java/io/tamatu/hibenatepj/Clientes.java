@@ -7,6 +7,8 @@ package io.tamatu.hibenatepj;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -25,6 +27,11 @@ public class Clientes {
         this.Nombres = Nombres;
         this.Apellidos = Apellidos;
         this.Direccion = Direccion;
+    }
+
+    @Override
+    public String toString() {
+        return "Clientes{" + "Id=" + Id + ", Nombres=" + Nombres + ", Apellidos=" + Apellidos + ", Direccion=" + Direccion + '}';
     }
     
     public int getId() {
@@ -62,8 +69,17 @@ public class Clientes {
     
     
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="Id")
     private int Id;
+    /**
+     * Identity sequencing uses special IDENTITY columns in the database to 
+     * allow the database to automatically assign an id to the object when its 
+     * row is inserted. Identity columns are supported in many databases, such 
+     * as MySQL, DB2, SQL Server, Sybase and Postgres. Oracle does not support 
+     * IDENTITY columns but they can be simulated through using sequence objects 
+     * and triggers.
+     */
     @Column(name="Nombres")
     private String Nombres;
     @Column(name="Apellidos")
