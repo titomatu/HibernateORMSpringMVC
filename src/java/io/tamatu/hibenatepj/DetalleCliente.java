@@ -5,11 +5,14 @@
  */
 package io.tamatu.hibenatepj;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -61,6 +64,14 @@ public class DetalleCliente {
         this.comentarios = comentarios;
     }
 
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+    
     @Override
     public String toString() {
         return "DetalleCliente{" + "id=" + id + ", web=" + web + ", telefono=" + telefono + ", comentarios=" + comentarios + '}';
@@ -101,4 +112,7 @@ public class DetalleCliente {
     private String telefono;
     @Column(name="comentarios")
     private String comentarios;
+    
+    @OneToOne(mappedBy="detalleCliente", cascade=CascadeType.ALL) //Tipo de relación y cascada
+    private Cliente cliente; //mappedBy -> relación One To One bidireccional
 }
