@@ -5,7 +5,7 @@
  */
 package io.tamatu.hibenatepj.pruebahb;
 
-import io.tamatu.hibenatepj.Clientes;
+import io.tamatu.hibenatepj.model.Clientes;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;

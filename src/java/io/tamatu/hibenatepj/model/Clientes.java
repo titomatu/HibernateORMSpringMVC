@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package io.tamatu.hibenatepj;
+package io.tamatu.hibenatepj.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

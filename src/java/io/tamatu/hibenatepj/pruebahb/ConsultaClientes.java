@@ -5,8 +5,7 @@
  */
 package io.tamatu.hibenatepj.pruebahb;
 
-import io.tamatu.hibenatepj.Clientes;
-import java.util.Set;
+import io.tamatu.hibenatepj.model.Clientes;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.hibernate.Session;
