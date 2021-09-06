@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package io.tamatu.hibenatepj;
+package io.tamatu.hibenatepj.pruebahb;
 
+import io.tamatu.hibenatepj.Cliente;
+import io.tamatu.hibenatepj.DetalleCliente;
 import java.util.Optional;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -14,7 +16,7 @@ import org.hibernate.cfg.Configuration;
  *
  * @author titonitola-maturana
  */
-public class PruebaDeleteOneToOne {
+public class PruebaOneToOneBidireccional {
     public static void main(String[] args){
         SessionFactory miFactoria = new Configuration()
                 .configure("hibernate.cfg.xml")
@@ -27,18 +29,15 @@ public class PruebaDeleteOneToOne {
         try{
             miSession.beginTransaction();
             
-            Optional<Cliente> cliente1 = miSession.byId(Cliente.class).loadOptional(2);
+            //Searchin by the other direction, from detalle cliente to cliente
+            Optional<DetalleCliente> detalle1 = miSession.byId(DetalleCliente.class).loadOptional(1);
             
-            if(cliente1.isPresent()){
-                System.out.println("Registro encontrado Cliente: " + cliente1.get().getId());
-                System.out.println("Registro encontrado Detalle: " + cliente1.get().getDetalleCliente().getId());
+            if(detalle1.isPresent()){
+                System.out.println("Registro encontrado Cliente: " + detalle1.get().toString());
+                System.out.println("Registro encontrado Detalle: " + detalle1.get().getCliente().toString());
                 
-                //Transacción para eliminar el registro
-                miSession.delete(cliente1.get());
-                miSession.getTransaction().commit();
-                System.out.println("Cliente-Detalle eliminados correctamente!!!");
             } else {
-                System.out.println("Cliente no existe!!!");
+                System.out.println("Detalle Cliente no existe!!!");
             }
             
         } catch(Exception exc){

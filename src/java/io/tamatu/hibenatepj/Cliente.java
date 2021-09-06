@@ -5,6 +5,8 @@
  */
 package io.tamatu.hibenatepj;
 
+import java.util.Set;
+import java.util.TreeSet;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -72,6 +75,14 @@ public class Cliente {
         this.detalleCliente = detalleCliente;
     }
 
+    public Set<Pedido> getPedidos() {
+        return pedidos;
+    }
+
+    public void setPedidos(Set<Pedido> pedidos) {
+        this.pedidos = pedidos;
+    }
+
     @Override
     public String toString() {
         return "Cliente{" + "id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", direccion=" + direccion + '}';
@@ -102,6 +113,13 @@ public class Cliente {
         return true;
     }
     
+    public void agregarPedido(Pedido pedido){
+        if(this.pedidos == null) this.pedidos = new TreeSet<Pedido>();
+        
+        this.pedidos.add(pedido);
+        pedido.setCliente(this);
+    }
+    
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="id")
@@ -116,4 +134,7 @@ public class Cliente {
     @OneToOne(cascade=CascadeType.ALL) //Tipo de relación y cascada
     @JoinColumn(name="id") //ColumnaJoin
     private DetalleCliente detalleCliente;
+    
+    @OneToMany(mappedBy="cliente", cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    private Set<Pedido> pedidos;
 }

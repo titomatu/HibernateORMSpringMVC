@@ -3,11 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package io.tamatu.hibenatepj;
+package io.tamatu.hibenatepj.pruebahb;
 
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import io.tamatu.hibenatepj.Clientes;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -16,7 +14,7 @@ import org.hibernate.cfg.Configuration;
  *
  * @author titonitola-maturana
  */
-public class ConsultaClientes {
+public class UpdateClientePrueba {
     public static void main(String[] args){
         SessionFactory miFactoria = new Configuration()
                 .configure("hibernate.cfg.xml")
@@ -27,12 +25,18 @@ public class ConsultaClientes {
         
         try{
             miSession.beginTransaction();
+            Clientes cliente1 = miSession.get(Clientes.class, 2);
+            //Modificamos las propiedades
+            cliente1.setNombres("Saniago Andrés");
+            cliente1.setApellidos("Nitola Sandoval");
+            //Commit de la transacción
+            miSession.getTransaction().commit();
             
-            //Consulta de clientes, nombre de la tabla en HQL es de 
-            //la entidad mapeada
-            Stream<Clientes> clientes = miSession.createQuery("from Clientes cl where cl.Apellidos = 'Nitola'").getResultStream();
-            
-            clientes.forEach(p -> System.out.println(p.toString()));
+            //2 forma: con HQL
+            miSession.beginTransaction();
+            miSession.createQuery("update Clientes cl set cl.Nombres='Tito Andrés'" + 
+                    " where cl.Id=3").executeUpdate();
+            miSession.getTransaction().commit();
         } finally {
             miSession.close();
             miFactoria.close();

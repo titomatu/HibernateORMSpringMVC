@@ -5,13 +5,15 @@
  */
 package io.tamatu.hibenatepj;
 
+import java.time.LocalDate;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -19,16 +21,15 @@ import javax.persistence.Table;
  * @author titonitola-maturana
  */
 @Entity
-@Table(name="detalle_cliente")
-public class DetalleCliente {
+@Table(name="pedido")
+public class Pedido {
 
-    public DetalleCliente() {
+    public Pedido() {
     }
 
-    public DetalleCliente(String web, String telefono, String comentarios) {
-        this.web = web;
-        this.telefono = telefono;
-        this.comentarios = comentarios;
+    public Pedido(String metodoPago, LocalDate fecha) {
+        this.metodoPago = metodoPago;
+        this.fecha = fecha;
     }
 
     public int getId() {
@@ -39,28 +40,20 @@ public class DetalleCliente {
         this.id = id;
     }
 
-    public String getWeb() {
-        return web;
+    public String getMetodoPago() {
+        return metodoPago;
     }
 
-    public void setWeb(String web) {
-        this.web = web;
+    public void setMetodoPago(String metodoPago) {
+        this.metodoPago = metodoPago;
     }
 
-    public String getTelefono() {
-        return telefono;
+    public LocalDate getFecha() {
+        return fecha;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-
-    public String getComentarios() {
-        return comentarios;
-    }
-
-    public void setComentarios(String comentarios) {
-        this.comentarios = comentarios;
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
     }
 
     public Cliente getCliente() {
@@ -70,16 +63,11 @@ public class DetalleCliente {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
-    
-    @Override
-    public String toString() {
-        return "DetalleCliente{" + "id=" + id + ", web=" + web + ", telefono=" + telefono + ", comentarios=" + comentarios + '}';
-    }
 
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 19 * hash + this.id;
+        hash = 23 * hash + this.id;
         return hash;
     }
 
@@ -94,24 +82,29 @@ public class DetalleCliente {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final DetalleCliente other = (DetalleCliente) obj;
+        final Pedido other = (Pedido) obj;
         if (this.id != other.id) {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Pedido{" + "id=" + id + ", metodoPago=" + metodoPago + ", fecha=" + fecha + ", cliente=" + cliente + '}';
     }
     
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="id")
     private int id;
-    @Column(name="web")
-    private String web;
-    @Column(name="tfno")
-    private String telefono;
-    @Column(name="comentarios")
-    private String comentarios;
+    @Column(name="forma_pago")
+    private String metodoPago;
+    @Column(name="fecha")
+    private LocalDate fecha;
     
-    @OneToOne(mappedBy="detalleCliente", cascade=CascadeType.ALL) //Tipo de relación y cascada
-    private Cliente cliente; //mappedBy -> relación One To One bidireccional
+    @ManyToOne(cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name="id")
+    private Cliente cliente;
+    
 }

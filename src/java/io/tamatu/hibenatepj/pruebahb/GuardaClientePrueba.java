@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package io.tamatu.hibenatepj;
+package io.tamatu.hibenatepj.pruebahb;
 
+import io.tamatu.hibenatepj.Clientes;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -13,30 +14,31 @@ import org.hibernate.cfg.Configuration;
  *
  * @author titonitola-maturana
  */
-public class PruebaOneToOne {
+public class GuardaClientePrueba {
     public static void main(String[] args){
         SessionFactory miFactoria = new Configuration()
                 .configure("hibernate.cfg.xml")
-                .addAnnotatedClass(Cliente.class)
-                .addAnnotatedClass(DetalleCliente.class)
+                .addAnnotatedClass(Clientes.class)
                 .buildSessionFactory();
         
         Session miSession = miFactoria.openSession();
         
         try{
-            Cliente cliente1 = new Cliente("Tito", "Maturana", "Edificio UGI");
-            DetalleCliente detalle1 = new DetalleCliente("www", "3333333", "no comments");
-            cliente1.setDetalleCliente(detalle1);
+            Clientes cliente1 = new Clientes("Tito Andrés II", "Maturana de la Cruz", "Chapinero");
+            System.out.println("Crear cliente con id: " + cliente1.getId());
             
             miSession.beginTransaction();
             miSession.save(cliente1);
+            miSession.getTransaction().commit();
             
-            System.out.println("Registro Finalizado Cliente: " + cliente1.getId());
-            System.out.println("Detalle: " + cliente1.getDetalleCliente().getId());
+            System.out.println("Registro Finalizado");
             
-        } catch(Exception exc){
-            exc.printStackTrace();
-        } finally{
+            //Lectura de registro
+            System.out.println("Lectura con id: " + cliente1.getId());
+            miSession.beginTransaction();
+            Clientes clienteInsert = miSession.get(Clientes.class, cliente1.getId());
+            System.out.println("Registro: " + clienteInsert.toString());
+        } finally {
             miSession.close();
             miFactoria.close();
         }
