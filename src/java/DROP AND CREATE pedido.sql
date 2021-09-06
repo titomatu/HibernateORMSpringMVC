@@ -1,0 +1,12 @@
+DROP TABLE IF EXISTS pedido;
+CREATE TABLE pedido (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  fecha date DEFAULT NULL,
+  forma_pago varchar(15) DEFAULT NULL,
+  cliente_id int(11) DEFAULT NULL,
+  PRIMARY KEY (id),
+  KEY FK_CLIENTE_ID(cliente_id),
+  CONSTRAINT cliente_id FOREIGN KEY(cliente_id)
+  REFERENCES cliente(id) 
+  ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;

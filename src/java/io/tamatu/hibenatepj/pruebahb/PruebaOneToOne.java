@@ -7,6 +7,7 @@ package io.tamatu.hibenatepj.pruebahb;
 
 import io.tamatu.hibenatepj.model.Cliente;
 import io.tamatu.hibenatepj.model.DetalleCliente;
+import io.tamatu.hibenatepj.model.Pedido;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -21,6 +22,7 @@ public class PruebaOneToOne {
                 .configure("hibernate.cfg.xml")
                 .addAnnotatedClass(Cliente.class)
                 .addAnnotatedClass(DetalleCliente.class)
+                .addAnnotatedClass(Pedido.class)
                 .buildSessionFactory();
         
         Session miSession = miFactoria.openSession();
@@ -29,6 +31,7 @@ public class PruebaOneToOne {
             Cliente cliente1 = new Cliente("Tito", "Maturana", "Edificio UGI");
             DetalleCliente detalle1 = new DetalleCliente("www", "3333333", "no comments");
             cliente1.setDetalleCliente(detalle1);
+            //cliente1.setPedidos(null);
             
             miSession.beginTransaction();
             miSession.save(cliente1);

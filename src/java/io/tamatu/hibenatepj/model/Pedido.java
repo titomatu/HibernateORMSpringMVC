@@ -6,6 +6,7 @@
 package io.tamatu.hibenatepj.model;
 
 import java.time.LocalDate;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -66,8 +67,11 @@ public class Pedido {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 23 * hash + this.id;
+        int hash = 7;
+        hash = 13 * hash + this.id;
+        hash = 13 * hash + Objects.hashCode(this.metodoPago);
+        hash = 13 * hash + Objects.hashCode(this.fecha);
+        hash = 13 * hash + Objects.hashCode(this.cliente);
         return hash;
     }
 
@@ -84,6 +88,15 @@ public class Pedido {
         }
         final Pedido other = (Pedido) obj;
         if (this.id != other.id) {
+            return false;
+        }
+        if (!Objects.equals(this.metodoPago, other.metodoPago)) {
+            return false;
+        }
+        if (!Objects.equals(this.fecha, other.fecha)) {
+            return false;
+        }
+        if (!Objects.equals(this.cliente, other.cliente)) {
             return false;
         }
         return true;
@@ -104,7 +117,7 @@ public class Pedido {
     private LocalDate fecha;
     
     @ManyToOne(cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name="id")
+    @JoinColumn(name="cliente_id")
     private Cliente cliente;
     
 }

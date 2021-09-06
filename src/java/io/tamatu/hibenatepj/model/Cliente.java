@@ -5,6 +5,7 @@
  */
 package io.tamatu.hibenatepj.model;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 import javax.persistence.CascadeType;
@@ -114,7 +115,7 @@ public class Cliente {
     }
     
     public void agregarPedido(Pedido pedido){
-        if(this.pedidos == null) this.pedidos = new TreeSet<Pedido>();
+        if(this.pedidos == null) this.pedidos = new HashSet<Pedido>();
         
         this.pedidos.add(pedido);
         pedido.setCliente(this);

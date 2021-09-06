@@ -7,6 +7,7 @@ package io.tamatu.hibenatepj.pruebahb;
 
 import io.tamatu.hibenatepj.model.Cliente;
 import io.tamatu.hibenatepj.model.DetalleCliente;
+import io.tamatu.hibenatepj.model.Pedido;
 import java.util.Optional;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -22,6 +23,7 @@ public class PruebaDeleteOneToOne {
                 .configure("hibernate.cfg.xml")
                 .addAnnotatedClass(Cliente.class)
                 .addAnnotatedClass(DetalleCliente.class)
+                .addAnnotatedClass(Pedido.class)
                 .buildSessionFactory();
         
         Session miSession = miFactoria.openSession();
@@ -29,7 +31,7 @@ public class PruebaDeleteOneToOne {
         try{
             miSession.beginTransaction();
             
-            Optional<Cliente> cliente1 = miSession.byId(Cliente.class).loadOptional(2);
+            Optional<Cliente> cliente1 = miSession.byId(Cliente.class).loadOptional(3);
             
             if(cliente1.isPresent()){
                 System.out.println("Registro encontrado Cliente: " + cliente1.get().getId());
