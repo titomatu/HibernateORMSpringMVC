@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package io.tamatu.hibenatepj.pruebahb;
+package io.tamatu.hibernatepj.pruebahb;
 
-import io.tamatu.hibenatepj.model.Clientes;
+import io.tamatu.hibernatepj.model.Clientes;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;

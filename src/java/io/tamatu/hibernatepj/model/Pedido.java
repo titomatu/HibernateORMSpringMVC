@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package io.tamatu.hibenatepj.model;
+package io.tamatu.hibernatepj.model;
 
 import java.time.LocalDate;
 import java.util.Objects;

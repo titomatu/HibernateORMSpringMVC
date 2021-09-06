@@ -3,12 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package io.tamatu.hibenatepj.pruebahb;
+package io.tamatu.hibernatepj.pruebahb;
 
-import io.tamatu.hibenatepj.model.Cliente;
-import io.tamatu.hibenatepj.model.DetalleCliente;
-import io.tamatu.hibenatepj.model.Pedido;
-import java.util.Optional;
+import io.tamatu.hibernatepj.model.Cliente;
+import io.tamatu.hibernatepj.model.DetalleCliente;
+import io.tamatu.hibernatepj.model.Pedido;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -17,7 +16,7 @@ import org.hibernate.cfg.Configuration;
  *
  * @author titonitola-maturana
  */
-public class PruebaDeleteOneToOne {
+public class PruebaOneToOne {
     public static void main(String[] args){
         SessionFactory miFactoria = new Configuration()
                 .configure("hibernate.cfg.xml")
@@ -29,21 +28,16 @@ public class PruebaDeleteOneToOne {
         Session miSession = miFactoria.openSession();
         
         try{
+            Cliente cliente1 = new Cliente("Tito", "Maturana", "Edificio UGI");
+            DetalleCliente detalle1 = new DetalleCliente("www", "3333333", "no comments");
+            cliente1.setDetalleCliente(detalle1);
+            //cliente1.setPedidos(null);
+            
             miSession.beginTransaction();
+            miSession.save(cliente1);
             
-            Optional<Cliente> cliente1 = miSession.byId(Cliente.class).loadOptional(3);
-            
-            if(cliente1.isPresent()){
-                System.out.println("Registro encontrado Cliente: " + cliente1.get().getId());
-                System.out.println("Registro encontrado Detalle: " + cliente1.get().getDetalleCliente().getId());
-                
-                //Transacción para eliminar el registro
-                miSession.delete(cliente1.get());
-                miSession.getTransaction().commit();
-                System.out.println("Cliente-Detalle eliminados correctamente!!!");
-            } else {
-                System.out.println("Cliente no existe!!!");
-            }
+            System.out.println("Registro Finalizado Cliente: " + cliente1.getId());
+            System.out.println("Detalle: " + cliente1.getDetalleCliente().getId());
             
         } catch(Exception exc){
             exc.printStackTrace();

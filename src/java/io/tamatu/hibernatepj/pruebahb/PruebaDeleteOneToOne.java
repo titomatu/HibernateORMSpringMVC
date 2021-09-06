@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package io.tamatu.hibenatepj.pruebahb;
+package io.tamatu.hibernatepj.pruebahb;
 
-import io.tamatu.hibenatepj.model.Cliente;
-import io.tamatu.hibenatepj.model.DetalleCliente;
-import io.tamatu.hibenatepj.model.Pedido;
+import io.tamatu.hibernatepj.model.Cliente;
+import io.tamatu.hibernatepj.model.DetalleCliente;
+import io.tamatu.hibernatepj.model.Pedido;
 import java.util.Optional;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -17,7 +17,7 @@ import org.hibernate.cfg.Configuration;
  *
  * @author titonitola-maturana
  */
-public class PruebaOneToOneBidireccional {
+public class PruebaDeleteOneToOne {
     public static void main(String[] args){
         SessionFactory miFactoria = new Configuration()
                 .configure("hibernate.cfg.xml")
@@ -31,15 +31,18 @@ public class PruebaOneToOneBidireccional {
         try{
             miSession.beginTransaction();
             
-            //Searchin by the other direction, from detalle cliente to cliente
-            Optional<DetalleCliente> detalle1 = miSession.byId(DetalleCliente.class).loadOptional(1);
+            Optional<Cliente> cliente1 = miSession.byId(Cliente.class).loadOptional(3);
             
-            if(detalle1.isPresent()){
-                System.out.println("Registro encontrado Cliente: " + detalle1.get().toString());
-                System.out.println("Registro encontrado Detalle: " + detalle1.get().getCliente().toString());
+            if(cliente1.isPresent()){
+                System.out.println("Registro encontrado Cliente: " + cliente1.get().getId());
+                System.out.println("Registro encontrado Detalle: " + cliente1.get().getDetalleCliente().getId());
                 
+                //Transacción para eliminar el registro
+                miSession.delete(cliente1.get());
+                miSession.getTransaction().commit();
+                System.out.println("Cliente-Detalle eliminados correctamente!!!");
             } else {
-                System.out.println("Detalle Cliente no existe!!!");
+                System.out.println("Cliente no existe!!!");
             }
             
         } catch(Exception exc){
