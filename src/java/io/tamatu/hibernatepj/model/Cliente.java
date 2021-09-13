@@ -13,6 +13,7 @@ import java.util.TreeSet;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -138,6 +139,16 @@ public class Cliente {
     @JoinColumn(name="id") //ColumnaJoin
     private DetalleCliente detalleCliente;
     
-    @OneToMany(mappedBy="cliente", cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToMany(fetch=FetchType.LAZY,mappedBy="cliente", cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private List<Pedido> pedidos;
+    /**
+     * EAGER -> Get all the info available ina a relationship between 2 tables
+     * LAZY -> Get all the infor when it is needed - On Demand
+     * 
+     * Default Fetch Values:
+     * OneToOne     EAGER
+     * OneToMany    LAZY
+     * ManyToOne    EAGER
+     * ManyToMany   LAZY
+     */
 }
