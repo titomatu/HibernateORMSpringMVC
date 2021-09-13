@@ -5,7 +5,9 @@
  */
 package io.tamatu.hibernatepj.model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import javax.persistence.CascadeType;
@@ -76,11 +78,11 @@ public class Cliente {
         this.detalleCliente = detalleCliente;
     }
 
-    public Set<Pedido> getPedidos() {
+    public List<Pedido> getPedidos() {
         return pedidos;
     }
 
-    public void setPedidos(Set<Pedido> pedidos) {
+    public void setPedidos(List<Pedido> pedidos) {
         this.pedidos = pedidos;
     }
 
@@ -115,7 +117,7 @@ public class Cliente {
     }
     
     public void agregarPedido(Pedido pedido){
-        if(this.pedidos == null) this.pedidos = new HashSet<Pedido>();
+        if(this.pedidos == null) this.pedidos = new ArrayList<Pedido>();
         
         this.pedidos.add(pedido);
         pedido.setCliente(this);
@@ -137,5 +139,5 @@ public class Cliente {
     private DetalleCliente detalleCliente;
     
     @OneToMany(mappedBy="cliente", cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    private Set<Pedido> pedidos;
+    private List<Pedido> pedidos;
 }
